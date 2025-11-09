@@ -65,3 +65,6 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 export PATH="$JAVA_HOME/bin:$PATH"
 export PATH="/Users/seangil/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/seangil/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+# Disable Homebrew auto-update
+export HOMEBREW_NO_AUTO_UPDATE=1
