@@ -1,0 +1,12 @@
+# This is Git's per-user configuration file.
+[user]
+	name = sean
+	email = 77409500+sean35mm@users.noreply.github.com
+# Please adapt and uncomment the following lines:
+#	name = seangil
+#	email = seangil@seans-MBP.localdomain
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
