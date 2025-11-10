@@ -54,7 +54,6 @@ fi
 echo "📁 Creating config directories..."
 mkdir -p ~/.config/ghostty
 mkdir -p ~/.config/mise
-mkdir -p ~/.ssh
 mkdir -p ~/Library/Application\ Support/Cursor/User
 
 # Backup existing configs if they exist
@@ -71,7 +70,6 @@ backup_if_exists ~/.p10k.zsh
 backup_if_exists ~/.gitconfig
 backup_if_exists ~/.config/ghostty/config
 backup_if_exists ~/.config/mise/config.toml
-backup_if_exists ~/.ssh/config
 
 # Create symlinks
 echo "🔗 Creating symlinks..."
@@ -82,39 +80,6 @@ ln -sf "$DOTFILES_DIR/.gitconfig" ~/.gitconfig
 ln -sf "$DOTFILES_DIR/ghostty-config" ~/.config/ghostty/config
 ln -sf "$DOTFILES_DIR/mise-config.toml" ~/.config/mise/config.toml
 
-# Set up SSH config and public keys
-echo "🔑 Setting up SSH configuration..."
-if [ -f "$DOTFILES_DIR/.ssh/config" ]; then
-    ln -sf "$DOTFILES_DIR/.ssh/config" ~/.ssh/config
-fi
-
-# Copy public keys if they exist
-if [ -f "$DOTFILES_DIR/.ssh/id_ed25519.pub" ]; then
-    cp "$DOTFILES_DIR/.ssh/id_ed25519.pub" ~/.ssh/
-fi
-if [ -f "$DOTFILES_DIR/.ssh/replit.pub" ]; then
-    cp "$DOTFILES_DIR/.ssh/replit.pub" ~/.ssh/
-fi
-
-# Set correct permissions for .ssh directory
-chmod 700 ~/.ssh
-if [ -f ~/.ssh/config ]; then
-    chmod 600 ~/.ssh/config
-fi
-
-# Check if private keys exist in dotfiles (they should be added manually)
-echo ""
-echo "⚠️  SSH Private Keys Setup:"
-if [ ! -f "$DOTFILES_DIR/.ssh/id_ed25519" ] || [ ! -f "$DOTFILES_DIR/.ssh/replit" ]; then
-    echo "   Private keys not found in dotfiles (this is normal for security)."
-    echo "   You'll need to manually copy your private keys to ~/.ssh/"
-    echo "   Or they may already exist on this machine."
-else
-    echo "   Private keys found in dotfiles directory."
-    echo "   Please manually copy them to ~/.ssh/ and set permissions:"
-    echo "   cp $DOTFILES_DIR/.ssh/id_ed25519 ~/.ssh/ && chmod 600 ~/.ssh/id_ed25519"
-    echo "   cp $DOTFILES_DIR/.ssh/replit ~/.ssh/ && chmod 600 ~/.ssh/replit"
-fi
 # Set up Cursor editor settings
 echo "🎨 Setting up Cursor editor configuration..."
 if [ -f "$DOTFILES_DIR/cursor/settings.json" ]; then
@@ -148,7 +113,5 @@ echo "💡 Notes:"
 echo "   - Original configs backed up with timestamp"
 echo "   - All configs are symlinked to $DOTFILES_DIR"
 echo "   - Update any personal info in .gitconfig as needed"
-echo "   - SSH config and public keys are set up"
-echo "   - Remember to manually add SSH private keys if needed"
 echo "   - Cursor editor settings and keybindings are set up"
 echo ""
