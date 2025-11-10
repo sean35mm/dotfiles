@@ -55,6 +55,7 @@ echo "📁 Creating config directories..."
 mkdir -p ~/.config/ghostty
 mkdir -p ~/.config/mise
 mkdir -p ~/.ssh
+mkdir -p ~/Library/Application\ Support/Cursor/User
 
 # Backup existing configs if they exist
 backup_if_exists() {
@@ -114,6 +115,16 @@ else
     echo "   cp $DOTFILES_DIR/.ssh/id_ed25519 ~/.ssh/ && chmod 600 ~/.ssh/id_ed25519"
     echo "   cp $DOTFILES_DIR/.ssh/replit ~/.ssh/ && chmod 600 ~/.ssh/replit"
 fi
+# Set up Cursor editor settings
+echo "🎨 Setting up Cursor editor configuration..."
+if [ -f "$DOTFILES_DIR/cursor/settings.json" ]; then
+    cp "$DOTFILES_DIR/cursor/settings.json" ~/Library/Application\ Support/Cursor/User/
+    echo "   ✅ Cursor settings.json copied"
+fi
+if [ -f "$DOTFILES_DIR/cursor/keybindings.json" ]; then
+    cp "$DOTFILES_DIR/cursor/keybindings.json" ~/Library/Application\ Support/Cursor/User/
+    echo "   ✅ Cursor keybindings.json copied"
+fi
 echo ""
 
 # Set up mise activation in .zshrc if not already present
@@ -139,4 +150,5 @@ echo "   - All configs are symlinked to $DOTFILES_DIR"
 echo "   - Update any personal info in .gitconfig as needed"
 echo "   - SSH config and public keys are set up"
 echo "   - Remember to manually add SSH private keys if needed"
+echo "   - Cursor editor settings and keybindings are set up"
 echo ""
