@@ -12,6 +12,13 @@
 *.env
 .env.*
 
+# SSH private keys (keep public keys and config)
+.ssh/id_*
+.ssh/replit
+.ssh/known_hosts
+.ssh/known_hosts.old
+!.ssh/*.pub
+
 # Personal/company-specific configs
 *local*
 *private*
