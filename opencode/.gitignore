@@ -1,0 +1,6 @@
+node_modules/
+skills/
+opencode.json
+bun.lock
+*.bak
+.opencode/

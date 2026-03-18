@@ -70,7 +70,6 @@ backup_if_exists ~/.p10k.zsh
 backup_if_exists ~/.gitconfig
 backup_if_exists ~/.config/ghostty/config
 backup_if_exists ~/.config/mise/config.toml
-
 # Create symlinks
 echo "🔗 Creating symlinks..."
 ln -sf "$DOTFILES_DIR/.zshrc" ~/.zshrc
@@ -89,6 +88,41 @@ fi
 if [ -f "$DOTFILES_DIR/cursor/keybindings.json" ]; then
     cp "$DOTFILES_DIR/cursor/keybindings.json" ~/Library/Application\ Support/Cursor/User/
     echo "   ✅ Cursor keybindings.json copied"
+fi
+echo ""
+
+# Set up OpenCode configuration
+echo "🤖 Setting up OpenCode configuration..."
+if [ -d "$DOTFILES_DIR/opencode" ]; then
+    # Remove existing dir/symlink, back up if it's a real directory
+    if [ -d "$HOME/.config/opencode" ] && [ ! -L "$HOME/.config/opencode" ]; then
+        echo "   📋 Backing up existing opencode config..."
+        mv "$HOME/.config/opencode" "$HOME/.config/opencode.backup.$(date +%Y%m%d_%H%M%S)"
+    fi
+    rm -f "$HOME/.config/opencode"
+
+    ln -sfn "$DOTFILES_DIR/opencode" "$HOME/.config/opencode"
+    echo "   🔗 Symlinked opencode config"
+
+    # Create opencode.json from template if missing
+    if [ ! -f "$DOTFILES_DIR/opencode/opencode.json" ]; then
+        cp "$DOTFILES_DIR/opencode/opencode.json.example" "$DOTFILES_DIR/opencode/opencode.json"
+        echo "   📝 Created opencode.json from template - fill in your API keys"
+    fi
+
+    # Install OpenCode plugin dependencies
+    if command -v bun &> /dev/null; then
+        echo "   📦 Installing OpenCode dependencies with bun..."
+        (cd "$HOME/.config/opencode" && bun install)
+    elif command -v npm &> /dev/null; then
+        echo "   📦 Installing OpenCode dependencies with npm..."
+        (cd "$HOME/.config/opencode" && npm install)
+    else
+        echo "   ⚠️  Neither bun nor npm found. Please install dependencies manually."
+    fi
+    echo "   ✅ OpenCode setup complete"
+else
+    echo "   ⚠️  OpenCode directory not found, skipping..."
 fi
 echo ""
 
@@ -114,4 +148,6 @@ echo "   - Original configs backed up with timestamp"
 echo "   - All configs are symlinked to $DOTFILES_DIR"
 echo "   - Update any personal info in .gitconfig as needed"
 echo "   - Cursor editor settings and keybindings are set up"
+echo "   - OpenCode configuration includes custom plugins, tools, and commands"
+echo "   - Environment variables (API keys) are loaded from .zshrc"
 echo ""

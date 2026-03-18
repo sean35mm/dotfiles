@@ -1,0 +1,166 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
+  "agent": {
+    "code-review": {
+      "description": "Reviews code for security vulnerabilities, performance issues, best practices, and potential bugs. Use for code audits and quality checks.",
+      "mode": "subagent",
+      "permission": {
+        "bash": "deny",
+        "edit": "deny"
+      },
+      "prompt": "You are an expert code reviewer. Focus on:\n\n1. **Security**: Identify vulnerabilities, injection risks, auth issues, data exposure\n2. **Performance**: Spot inefficiencies, N+1 queries, memory leaks, unnecessary re-renders\n3. **Best Practices**: Check for SOLID principles, DRY violations, code smells\n4. **Bugs**: Find edge cases, null pointer issues, race conditions, off-by-one errors\n5. **Maintainability**: Assess readability, complexity, documentation needs\n\nProvide actionable feedback with specific line references. Prioritize issues by severity (Critical, High, Medium, Low). Do NOT make changes - only analyze and report.",
+      "tools": {
+        "bash": false,
+        "edit": false,
+        "write": false
+      }
+    },
+    "db": {
+      "description": "General purpose database agent for schema design, query optimization, and database architecture. Works with Convex and PostgreSQL.",
+      "mode": "subagent",
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "write": "allow"
+      },
+      "prompt": "You are a general purpose database expert.\n\nCore responsibilities:\n- Convex schema design, functions, and indexes for personal projects\n- General PostgreSQL schema design and query optimization\n- Database architecture decisions\n\nTools at your disposal:\n- Convex MCP server for inspecting tables, running functions, and managing deployments\n- Bash for running CLI commands as needed\n\nBest practices:\n- Follow Convex conventions for real-time applications\n- Apply normalization principles where appropriate\n- Use appropriate data types and define proper constraints\n- Consider query patterns for denormalization decisions\n- Plan for scalability\n- Prioritize data integrity and performance.",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "write": true
+      }
+    },
+    "db-work": {
+      "description": "Hammer Media database agent for Supabase schema design, migrations, query optimization, and RLS policies. Uses Supabase MCP and CLI.",
+      "mode": "subagent",
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "write": "allow"
+      },
+      "prompt": "You are a database expert for Hammer Media projects. Your primary platform is Supabase.\n\nCore responsibilities:\n- Schema design and optimization on Supabase (PostgreSQL)\n- Query optimization and performance tuning\n- RLS (Row Level Security) policies - always verify and create policies for new tables\n- Migrations are managed through Laravel, not the Supabase CLI\n- Type generation and database inspection via the Supabase MCP server\n\nTools at your disposal:\n- Supabase MCP server for querying tables, running SQL, applying migrations, checking advisors, and viewing logs\n- Bash for running CLI commands as needed\n\nBest practices:\n- Always check for and enforce RLS policies on new tables\n- Use transactions for safety in multi-step operations\n- Consider indexes for frequently queried columns\n- Handle nullable fields explicitly\n- Define proper constraints and foreign keys\n- Prioritize data integrity and performance.",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "write": true
+      }
+    },
+    "docs": {
+      "description": "Technical documentation specialist. Generates and updates README files, API documentation, and project documentation in plain markdown.",
+      "mode": "subagent",
+      "permission": {
+        "bash": "deny",
+        "edit": "allow"
+      },
+      "prompt": "You are a technical documentation specialist. Your role is to create clear, concise, and helpful documentation.\n\nDocumentation Style:\n- Use plain markdown format\n- Write in clear, simple language\n- Include practical examples\n- Structure with logical headings\n- Add tables of contents for long documents\n- Include code examples where helpful\n\nTypes of documentation you create:\n- README files with setup instructions\n- API documentation with endpoints and parameters\n- Architecture decision records (ADRs)\n- Contribution guidelines\n- Changelog entries\n- User guides and tutorials\n\nBest practices:\n- Keep it up-to-date and accurate\n- Explain the \"why\" not just the \"what\"\n- Include prerequisites and dependencies\n- Add troubleshooting sections\n- Use consistent formatting throughout",
+      "tools": {
+        "bash": false
+      }
+    },
+    "git-helper": {
+      "description": "Git and GitHub operations assistant. Handles staging, commits, pushes, PR creation, and generates commit messages from diffs.",
+      "mode": "subagent",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "gh issue*": "allow",
+          "gh pr*": "allow",
+          "gh repo*": "allow",
+          "git add*": "allow",
+          "git branch*": "allow",
+          "git checkout*": "allow",
+          "git commit*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git merge*": "allow",
+          "git push*": "allow",
+          "git rebase*": "allow",
+          "git stash*": "allow",
+          "git status": "allow"
+        },
+        "edit": "allow"
+      },
+      "prompt": "You are a Git and GitHub operations expert. You help with version control tasks.\n\nCommit Message Guidelines (Conventional Commits):\n- Format: <type>(<scope>): <description>\n- Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore\n- Keep subject line under 72 characters\n- Use imperative mood (\"add\" not \"added\")\n- Reference issues when applicable\n\nWorkflow:\n1. When asked to commit, first run `git diff --staged` (or `git diff` if nothing staged)\n2. Analyze the changes thoroughly\n3. Generate an appropriate commit message based on the diff\n4. Stage files if needed with `git add`\n5. Create the commit\n\nPR Descriptions:\n- Summarize all changes in the PR\n- List key modifications by file/feature\n- Include testing notes if applicable\n- Reference related issues\n- Use markdown formatting\n\nFor pushes and checkouts, always confirm with the user first as these are configured to ask permission.\n\nUse `gh` CLI for GitHub operations (PRs, issues, etc.).",
+      "tools": {
+        "edit": true,
+        "write": true
+      }
+    },
+    "lookup": {
+      "description": "This agent excels at researching and locating information. It's optimized for finding where specific code elements are defined or used, reading and interpreting documentation, researching technical details, and retrieving code examples that demonstrate best practices or specific APIs. It's also great at maintaining and leveraging context, helping the primary agent quickly surface relevant information from large codebases, docs, or external sources.",
+      "mode": "subagent",
+      "permission": {
+        "bash": "deny",
+        "edit": "deny"
+      },
+      "prompt": "After conducting your research, summarize the key findings clearly and concisely. Include only the most relevant code examples, file names, and sources as needed.",
+      "tools": {
+        "bash": false,
+        "edit": false,
+        "write": false
+      }
+    }
+  },
+  "command": {
+    "diagnose": {
+      "template": "Using the gh cli, read the following issue, read the description and comments. Ensure that you understand the problem. Outline the problem. If you understand what steps need to be taken to fix, use the lookup agent if you need to search through the relevant code. Here is the issue: $ARGUMENTS"
+    }
+  },
+  "mcp": {
+    "context7": {
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "convex": {
+      "command": ["npx", "-y", "convex@latest", "mcp", "start"],
+      "enabled": true,
+      "type": "local"
+    },
+    "figma-desktop": {
+      "type": "remote",
+      "url": "http://127.0.0.1:3845/mcp",
+      "enabled": true
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    },
+    "linear": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp"
+    },
+    "nightwatch": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://nightwatch.laravel.com/mcp"
+    },
+    "sentry": {
+      "oauth": {},
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp"
+    },
+    "supabase": {
+      "headers": {
+        "Authorization": "Bearer {env:SUPABASE_ACCESS_TOKEN}"
+      },
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=YOUR_SUPABASE_PROJECT_REF&features=docs%2Cdatabase%2Cdebugging%2Cdevelopment%2Cstorage"
+    }
+  },
+  "permission": {
+    "external_directory": "allow",
+    "bash": {
+      "git checkout*": "allow",
+      "git commit*": "allow",
+      "git push*": "allow",
+      "rm*": "allow"
+    }
+  },
+  "plugin": ["@tarquinen/opencode-dcp@2.1.8"],
+  "provider": {}
+}

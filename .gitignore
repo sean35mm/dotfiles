@@ -25,3 +25,10 @@
 
 # Logs
 *.log
+
+# OpenCode
+opencode/node_modules/
+opencode/.opencode/
+opencode/opencode.json
+opencode/bun.lock
+opencode/skills/
