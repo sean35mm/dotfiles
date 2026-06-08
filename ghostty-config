@@ -1,6 +1,6 @@
 # appearance
-font-family = "Ioskeley Mono"
-theme = Vesper
+font-family = "JetBrains Mono NL"
+theme = matte-black
 
 background-opacity = 0.8
 background-blur-radius = 40
@@ -21,7 +21,8 @@ window-decoration = true
 window-padding-x = 2
 window-padding-y = 2
 window-padding-balance = true
-window-save-state = always
+# Disabled because it can make macOS Quick Terminal ignore quick-terminal-size
+# window-save-state = always
 
 # auto update settings
 auto-update = download
@@ -30,18 +31,17 @@ auto-update-channel = stable
 # extras
 shell-integration = zsh
 shell-integration-features = true
-copy-on-select = clipboard
 focus-follows-mouse = true
 link-url = true
 
 # custom keybindings
-keybind = super+r=reload_config 
+keybind = super+r=reload_config
 keybind = super+i=inspector:toggle
 keybind = super+f=toggle_fullscreen
 keybind = super+left=previous_tab
 keybind = super+right=next_tab
 
-# split navigation 
+# split navigation
 keybind = super+b>h=goto_split:left
 keybind = super+b>j=goto_split:bottom
 keybind = super+b>k=goto_split:top
@@ -50,3 +50,11 @@ keybind = super+b>left=goto_split:left
 keybind = super+b>down=goto_split:bottom
 keybind = super+b>up=goto_split:top
 keybind = super+b>right=goto_split:right
+
+# Quake-style dropdown terminal
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+
+quick-terminal-position = top
+quick-terminal-size = 80%
+quick-terminal-animation-duration = 0.18
+quick-terminal-autohide = true
