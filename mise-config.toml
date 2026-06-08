@@ -1,5 +1,6 @@
 [tools]
-node = "latest"
+node = "lts"
 npm = "latest"
 pnpm = "latest"
 ruby = "latest"
+bun = "latest"

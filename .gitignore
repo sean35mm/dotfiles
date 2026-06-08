@@ -1,34 +1,43 @@
-# Backup files created by setup script
-*.backup.*
-
-# macOS
+# OS noise
 .DS_Store
 .AppleDouble
 .LSOverride
 
-# Sensitive data
+# Backups
+*.backup.*
+*.bak
+*~
+*.swp
+*.swo
+
+# Secrets / credentials
 *.key
 *.pem
 *.env
+.env
 .env.*
-
-# Personal/company-specific configs
-*local*
+.npmrc
+.aws/
+.ssh/
+secrets/
+.config/secrets/
+.zshrc
+.zshrc.local
+.zprofile.local
 *private*
 
-# Editor files
+# Logs / generated files
+*.log
+node_modules/
+
+# Editors / project-local state
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
 
-# Logs
-*.log
-
-# OpenCode
+# OpenCode private/generated state
 opencode/node_modules/
 opencode/.opencode/
 opencode/opencode.json
 opencode/bun.lock
+opencode/package-lock.json
 opencode/skills/

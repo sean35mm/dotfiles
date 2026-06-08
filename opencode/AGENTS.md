@@ -38,6 +38,15 @@ Do not begin implementation until the plan is reasoned through and approved.
 - No speculative changes or "while we're here" edits
 - All logic should be isolated to avoid breaking existing flows
 
+Testing / Regression Tests
+
+- Do not add regression tests by default for every bug fix, small behavior change, UI tweak, config change, or low-risk plumbing edit.
+- Prefer using the existing test suite and existing test files before creating new tests.
+- Only add new regression tests when they materially reduce meaningful risk: core business logic, auth/security, billing, data integrity, complex edge cases, previously recurring bugs, or behavior with no adequate existing coverage.
+- Do not create a new dedicated regression test file unless it is clearly necessary; prefer extending an existing relevant test file when appropriate.
+- Before adding tests, briefly justify why existing coverage is insufficient and why the added test is worth the maintenance cost.
+- If tests are unnecessary, say so explicitly and validate with the smallest relevant existing check instead.
+
 5. Double Check Everything
 - Review for correctness, scope adherence, and side effects
 - Ensure your code aligns with existing codebase patterns and avoids regressions

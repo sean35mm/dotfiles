@@ -1,12 +1,7 @@
+# Portable zprofile for Linux/Omarchy
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Keep login-shell PATH additions here. Interactive shell setup lives in .zshrc.
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Setting PATH for Python 3.12
-# The original version is saved in .zprofile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:${PATH}"
-export PATH
-
-# Created by `pipx` on 2025-01-07 04:33:07
-export PATH="$PATH:/Users/seangil/.local/bin"
+# Private login-shell environment, if needed.
+[[ -f "$HOME/.config/secrets/profile.zsh" ]] && source "$HOME/.config/secrets/profile.zsh"

@@ -1,0 +1,40 @@
+# Portable zsh config for Linux/Omarchy
+
+# Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Oh My Zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+  git
+  zsh-autosuggestions
+)
+
+[[ -f "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
+
+# Prompt customization
+[[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
+
+# Runtime managers / user paths
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+
+# mise
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+
+# Aliases
+alias oc='opencode'
+alias tm='task-master'
+alias taskmaster='task-master'
+alias nvimopen='nvim ~/.config/opencode/opencode.json'
+
+# Private environment variables / API keys
+# Keep this file out of git. Example location:
+#   ~/.config/secrets/env.zsh
+[[ -f "$HOME/.config/secrets/env.zsh" ]] && source "$HOME/.config/secrets/env.zsh"

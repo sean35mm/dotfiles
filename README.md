@@ -1,102 +1,100 @@
 # Dotfiles
 
-My personal development environment configuration for macOS.
+Minimal personal development dotfiles intended to be cloned onto Linux/Omarchy and applied by an agent or manually.
 
-## What's Included
+## Intended Scope
 
-- **Shell:** zsh with Oh My Zsh + Powerlevel10k theme
-- **Terminal:** Ghostty with custom keybindings
-- **Package Manager:** Homebrew
-- **Version Manager:** mise (for node, npm, pnpm, ruby)
-- **Font:** Iosevka Mono
-- **Editor Configs:** Git configuration
+Keep this repo focused on portable development configuration:
 
-## Quick Setup (New Machine)
+- zsh shell defaults
+- Powerlevel10k prompt config
+- Ghostty terminal config
+- Git config
+- mise runtime/tool versions
+- OpenCode agent/tooling config
 
-1. Clone this repository:
-```bash
-git clone <your-repo-url> ~/dotfiles
+This repo intentionally does not include Cursor, Neovim, Zellij, Omarchy desktop configs, or a setup script.
+
+## Files
+
+```text
+.gitconfig              Git user/config defaults
+ghostty-config          Ghostty terminal configuration
+.p10k.zsh               Powerlevel10k prompt configuration
+.zprofile               Portable login-shell PATH setup
+.zshrc.example          Safe zsh config template; copy/symlink to ~/.zshrc
+mise-config.toml        mise tool versions
+opencode/               OpenCode agents, commands, plugins, tools, and example config
 ```
 
-2. Run the setup script:
-```bash
-cd ~/dotfiles
-./setup.sh
-```
+## Suggested Links on Omarchy
 
-3. Restart your terminal or source the config:
-```bash
-source ~/.zshrc
-```
-
-That's it! Your development environment is ready.
-
-## What the Setup Script Does
-
-1. Installs Homebrew (if not present)
-2. Installs all packages from `Brewfile`
-3. Installs Oh My Zsh with Powerlevel10k theme
-4. Installs zsh-autosuggestions plugin
-5. Creates necessary config directories
-6. Backs up existing configs (with timestamp)
-7. Creates symlinks to dotfiles
-8. Installs development tools via mise
-
-## Files Included
-
-- `.zshrc` - Zsh configuration
-- `.zprofile` - Zsh profile (brew shellenv, PATH)
-- `.p10k.zsh` - Powerlevel10k theme configuration
-- `.gitconfig` - Git user configuration
-- `ghostty-config` - Ghostty terminal configuration
-- `mise-config.toml` - Mise tool versions
-- `Brewfile` - Homebrew packages and casks
-
-## Manual Steps
-
-After setup, you may want to:
-
-1. Update `.gitconfig` with your personal email/name if needed
-2. Review and adjust any API keys or tokens (not included in repo)
-3. Install any company-specific tools or configs
-
-## Updating Dotfiles
-
-After making changes to your configs:
+From a clone of this repo, an agent can link/copy:
 
 ```bash
-cd ~/dotfiles
-# Copy updated configs if needed
-cp ~/.zshrc .zshrc
-# etc...
+ln -sf "$PWD/.gitconfig" "$HOME/.gitconfig"
+mkdir -p "$HOME/.config/ghostty"
+ln -sf "$PWD/ghostty-config" "$HOME/.config/ghostty/config"
+ln -sf "$PWD/.p10k.zsh" "$HOME/.p10k.zsh"
+ln -sf "$PWD/.zprofile" "$HOME/.zprofile"
+ln -sf "$PWD/.zshrc.example" "$HOME/.zshrc"
 
-git add .
-git commit -m "Update configs"
-git push
+mkdir -p "$HOME/.config/mise" "$HOME/.config"
+ln -sf "$PWD/mise-config.toml" "$HOME/.config/mise/config.toml"
+ln -sfn "$PWD/opencode" "$HOME/.config/opencode"
 ```
 
-## Tools Managed by Mise
+Then install tools with:
 
-- Node.js (latest)
-- npm (latest)
-- pnpm (latest)
-- ruby (latest)
+```bash
+mise install
+```
 
-To add more tools, edit `mise-config.toml` and run `mise install`.
+## Secrets
 
-## Ghostty Keybindings
+Do not commit API keys, access tokens, credentials, SSH keys, npm tokens, AWS config, or local machine paths.
 
-Custom tmux-like prefix (⌘+B):
-- `⌘+B → C` - New tab
-- `⌘+B → X` - Close surface
-- `⌘+B → N` - New window
-- `⌘+B → F` - Fullscreen
-- `⌘+B → \` - Split right
-- `⌘+B → -` - Split down
-- `⌘+B → H/J/K/L` - Navigate splits
+Put private environment variables in an ignored local file instead:
 
-And many more! See `ghostty-config` for full list.
+```bash
+mkdir -p ~/.config/secrets
+$EDITOR ~/.config/secrets/env.zsh
+```
 
-## License
+Example:
 
-Feel free to use and modify for your own setup.
+```zsh
+export CONTEXT7_API_KEY="..."
+export SUPABASE_ACCESS_TOKEN="..."
+export SUPABASE_PROJECT_REF="..."
+```
+
+`.zshrc.example` sources this file automatically if it exists.
+
+## OpenCode
+
+The tracked OpenCode config should include reusable agents/tools and an example config only.
+
+Tracked:
+
+```text
+opencode/AGENTS.md
+opencode/command/
+opencode/plugin/
+opencode/plugins/
+opencode/tool/
+opencode/opencode.json.example
+opencode/package.json
+opencode/tui.json
+opencode/dcp.jsonc
+```
+
+Ignored/private/generated:
+
+```text
+opencode/opencode.json
+opencode/node_modules/
+opencode/.opencode/
+opencode/bun.lock
+*.log
+```
