@@ -1,6 +1,6 @@
 # appearance
 font-family = "JetBrains Mono NL"
-theme = matte-black
+theme = midnight
 
 background-opacity = 0.8
 background-blur-radius = 40
